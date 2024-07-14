@@ -4,6 +4,10 @@
 # Ignore environment variables file
 .env
 
+# Vite build output
+# used by Vite to store cache and build artifacts, which helps improve development speed.
+.vite
+
 # Ignore build output (for React)
 # build/
 
