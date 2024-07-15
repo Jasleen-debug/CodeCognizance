@@ -41,7 +41,7 @@ const RegistrationForm = () => {
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded shadow-md">
         <h2 className="text-2xl font-bold text-center">Register</h2>
 
-        <form className="space-y-4" onSubmit={handleSubmit}>
+        <form className="space-y-4" onSubmit={handleSubmit} method="POST">
 
           <div>
             <label htmlFor="firstname" className="block text-sm font-medium text-gray-700">First Name</label>
