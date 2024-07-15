@@ -1,13 +1,13 @@
 //import './App.css'
-//import RegistrationForm from "./components/RegistrationForm";
-import LoginForm from "./components/LoginForm"
+import RegistrationForm from "./components/RegistrationForm";
+//import LoginForm from "./components/LoginForm"
 
 function App() {
   return (
     <>
-{/*       <RegistrationForm />
- */}      <LoginForm/>
-    </>
+   <RegistrationForm />
+{/*    <LoginForm/>
+ */}    </>
   );
 }
 
