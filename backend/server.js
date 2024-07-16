@@ -9,6 +9,9 @@ const app = express()
 const PORT = process.env.PORT;
 
 app.use('/auth', authRouter)
+app.get('/', (req,res) => {
+  res.send('Hello world')
+})
 
 
 
