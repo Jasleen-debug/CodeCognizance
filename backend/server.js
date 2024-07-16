@@ -1,13 +1,17 @@
 //const express = require('express') - this is old way of importing ok
 import express from 'express' // you need to go to package.json and add type = module
+import cors from 'cors'
 import dotenv from 'dotenv'
 import { authRouter } from './routes/authRoutes.js'
-import DBConnection from './database/db.js';
+import DBConnection from './database/db.js'
+
 dotenv.config()
 
 const app = express()
 const PORT = process.env.PORT;
 
+// Apply CORS middleware
+app.use(cors());
 // Parse JSON bodies
 app.use(express.json())
 // Parse URL-encoded bodies
