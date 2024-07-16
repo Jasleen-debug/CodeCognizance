@@ -9,6 +9,8 @@ const RegistrationForm = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const [error, setError] = useState('')
+
   const handleInputChange = (e) => {
 
     const { name, value } = e.target
@@ -30,7 +32,7 @@ const RegistrationForm = () => {
         break
     }
   }
-  
+
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
@@ -43,11 +45,34 @@ const RegistrationForm = () => {
       //Redirect
       navigate('/')
     } catch (error) {
-        console.error('Error registering user: ', error)
+      console.error('Error registering user: ', error)
+      setError(error.response ? error.response.data.message : 'Server Error')
     }
   }
 
+  const handleCloseError = () => {
+    //Only clear the error state when the error is closed, not the form data
+    setError('')
+  }
+
   return (
+    <>
+    <div className='relative'>
+    {error && (
+      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-4 rounded shadow-lg max-w-md mx-auto text-center">
+              <h2 className="text-xl font-semibold text-red-600 mb-2">Registration Error</h2>
+              <p className="mb-4">{error}</p>
+              <button
+                  onClick={handleCloseError}
+                  className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+              >
+                  Close
+              </button>
+          </div>
+      </div>
+      )}
+      </div>
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded shadow-md">
         <h2 className="text-2xl font-bold text-center">Register</h2>
@@ -92,7 +117,8 @@ const RegistrationForm = () => {
         </form>
 
       </div>
-    </div>
+      </div>
+      </>
   );
 };
 
