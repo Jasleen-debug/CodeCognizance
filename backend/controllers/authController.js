@@ -19,7 +19,7 @@ export const register = async (req,res) => {
 
     //Hash the password in request body
     const hashedPassword = await bcrypt.hash(password, 10)
-    
+
     //Create a new user object or instance
     const newUser = new User({
       firstname,
@@ -44,7 +44,27 @@ export const register = async (req,res) => {
   }
 }
 
-export const login = () => {
-  console.log("This is login")
+export const login = async (req, res) => {
+  try {
+    const { email, password } = req.body
+
+    //Check if the user exists
+    const user = await User.findOne({ email })
+    if (!user) {
+      return res.status(400).json({message:'user not found'})
+    }
+
+    //Compare the password
+    const isMatch = await bcrypt.compare(password, user.password)
+    if (!isMatch) {
+      return res.status(400).json({message:'Password is incorrect!'})
+    }
+
+    //Generate a JWT token
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' })
+    res.status(200).json({token,user})
+  } catch (error) {
+    res.status(500).json({message: 'Server error', error})
+  }
 }
 

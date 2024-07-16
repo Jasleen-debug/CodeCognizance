@@ -23,7 +23,7 @@ const LoginForm = () => {
   }
 
   const navigate = useNavigate()
-  const handleSubmit = async(e) => {
+  const handleLogin = async(e) => {
     e.preventDefault()
     const formData = { email, password }
     console.log(formData)
@@ -41,7 +41,7 @@ const LoginForm = () => {
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded shadow-md">
         <h2 className="text-2xl font-bold text-center">Login</h2>
 
-        <form className="space-y-4" method='POST' onSubmit={handleSubmit}>
+        <form className="space-y-4" method='POST' onSubmit={handleLogin}>
 
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
