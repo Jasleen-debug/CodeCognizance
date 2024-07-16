@@ -43,7 +43,7 @@ const RegistrationForm = () => {
       const response = await axios.post('http://localhost:5000/auth/register', formData)
       console.log('User Registered: ', response.data)
       //Redirect
-      navigate('/')
+      navigate('/login')
     } catch (error) {
       console.error('Error registering user: ', error)
       setError(error.response ? error.response.data.message : 'Server Error')
