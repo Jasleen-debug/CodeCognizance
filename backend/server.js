@@ -8,6 +8,11 @@ dotenv.config()
 const app = express()
 const PORT = process.env.PORT;
 
+// Parse JSON bodies
+app.use(express.json())
+// Parse URL-encoded bodies
+app.use(express.urlencoded({ extended: true }));
+
 app.use('/auth', authRouter)
 app.get('/', (req,res) => {
   res.send('Hello world')
