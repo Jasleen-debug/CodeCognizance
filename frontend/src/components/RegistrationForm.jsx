@@ -1,4 +1,6 @@
-import {useState} from 'react'
+import { useState } from 'react'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 
 const RegistrationForm = () => {
 
@@ -28,12 +30,21 @@ const RegistrationForm = () => {
         break
     }
   }
+  
+  const navigate = useNavigate()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = { firstname, lastname, email, password }
     console.log(formData)
-    //we will send the form data to the backend later but for now just logging out on the console to see if all is good or no
+    try {
+      const response = await axios.post('http://localhost:5000/auth/register', formData)
+      console.log('User Registered: ', response.data)
+      //Redirect
+      navigate('/')
+    } catch (error) {
+        console.error('Error registering user: ', error)
+    }
   }
 
   return (
