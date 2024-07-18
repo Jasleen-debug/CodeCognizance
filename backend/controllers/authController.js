@@ -27,13 +27,12 @@ export const register = async (req,res) => {
       email,
       password: hashedPassword
     })
-    console.log("here 4")
+
     //Save the user to the database
     await newUser.save()
-    console.log("user saved")
+
     //Generate a JWT token
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    console.log("after jwt")
 
     //Respond with the token and user information
     res.status(201).json({token, user: newUser})
@@ -62,9 +61,27 @@ export const login = async (req, res) => {
 
     //Generate a JWT token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' })
-    res.status(200).json({token,user})
+
+    //Store cookies
+    const cookieOptions = {
+      expiresIn: new Date(Date.now() + 1*24*60*60*1000),
+      httpOnly: true //Can only be changed by server not client
+    }
+
+    //Send the response and token
+    res.status(200).cookie('token', token, cookieOptions).json({
+      message: 'User is logged in',
+      success: true,
+      token,
+      user: {firstName: user.firstname, lastName: user.lastname, email: user.email}
+    })
   } catch (error) {
     res.status(500).json({message: 'Server error', error})
   }
+}
+
+export const logout = (req, res) => {
+  res.clearCookie('token')
+  res.json({ message: 'Logged out successfully'})
 }
 
