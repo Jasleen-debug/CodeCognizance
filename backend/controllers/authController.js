@@ -62,13 +62,12 @@ export const login = async (req, res) => {
     //Generate a JWT token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' })
 
-    //Store cookies
+    //Store JWT token in an HTTP-only cookie
     const cookieOptions = {
       expiresIn: new Date(Date.now() + 1*24*60*60*1000),
       httpOnly: true //Can only be changed by server not client
     }
-
-    //Send the response and token
+    //Send the response and token in the cookie
     res.status(200).cookie('token', token, cookieOptions).json({
       message: 'User is logged in',
       success: true,

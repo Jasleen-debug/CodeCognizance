@@ -1,12 +1,14 @@
 //import React from 'react'
-import { useState } from "react";
-import axios from 'axios'
+import { useContext, useState } from "react";
+import { AuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
 
+  const { login } = useContext(AuthContext)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const navigate = useNavigate()
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -22,17 +24,14 @@ const LoginForm = () => {
     }
   }
 
-  const navigate = useNavigate()
   const handleLogin = async(e) => {
     e.preventDefault()
     const formData = { email, password }
-    console.log(formData)
     try {
-      const response = await axios.post('http://localhost:5000/auth/login', formData)
-      console.log('User Login complete', response)
-      navigate('/')
+      await login(formData)
+      navigate('/welcome')
     } catch (error) {
-        console.error('Error during user login:', error)
+      console.error('Error during user login: ',error)
     }
   }
 

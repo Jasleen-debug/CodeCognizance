@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import axios from 'axios'
+import { register as registerService } from '../services/authService';
 import { useNavigate } from 'react-router-dom';
 
 const RegistrationForm = () => {
@@ -8,13 +8,11 @@ const RegistrationForm = () => {
   const [lastname, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
   const [error, setError] = useState('')
+  const navigate = useNavigate()
 
   const handleInputChange = (e) => {
-
     const { name, value } = e.target
-
     switch (name) {
       case 'firstname':
         setFirstName(value)
@@ -33,17 +31,12 @@ const RegistrationForm = () => {
     }
   }
 
-  const navigate = useNavigate()
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = { firstname, lastname, email, password }
-    console.log(formData)
     try {
-      const response = await axios.post('http://localhost:5000/auth/register', formData)
-      console.log('User Registered: ', response.data)
-      //Redirect
-      navigate('/login')
+      await registerService(formData)
+      navigate('/login') //Redirect to login page after successful registration
     } catch (error) {
       console.error('Error registering user: ', error)
       setError(error.response ? error.response.data.message : 'Server Error')
