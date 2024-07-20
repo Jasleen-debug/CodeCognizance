@@ -48,11 +48,15 @@ export const AuthProvider = ({ children }) => {
           user: response.data.user
         })
       } catch (error) {
-        setAuth({
-          isAuthenticated: false,
-          loading: false,
-          user: null
-        })
+        if (error.response && error.response.status === 401) {
+          setAuth({
+            isAuthenticated: false,
+            loading: false,
+            user: null
+          });
+        } else {
+          console.error('Error checking auth status:', error);
+        }
       }
     }
     checkAuth()

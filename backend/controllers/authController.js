@@ -84,3 +84,11 @@ export const logout = (req, res) => {
   res.json({ message: 'Logged out successfully'})
 }
 
+export const checkAuth = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password') //This excludes the password from the response
+    res.json(user)
+} catch (error) {
+    res.status(500).json({ message: 'Server error'})
+  }
+}

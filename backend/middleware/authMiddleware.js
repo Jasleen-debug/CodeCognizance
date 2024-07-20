@@ -3,7 +3,7 @@ import dotenv from "dotenv"
 import jwt from 'jsonwebtoken'
 dotenv.config({ path: '../.env' })
 
-module.exports = function (req,res,next) {
+export const authMiddleware = (req,res,next)  => {
 
   const token = req.cookies.token
   if (!token) {
