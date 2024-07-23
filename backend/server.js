@@ -3,6 +3,7 @@ import express from 'express' // you need to go to package.json and add type = m
 import cors from 'cors'
 import dotenv from 'dotenv'
 import { authRouter } from './routes/auth.js'
+import { problemRouter } from './routes/problems.js'
 import DBConnection from './database/db.js'
 import cookieParser from 'cookie-parser'
 dotenv.config()
@@ -25,6 +26,7 @@ app.use(cookieParser())
 
 
 app.use('/auth', authRouter)
+app.use('/problem', problemRouter)
 app.get('/', (req,res) => {
   res.send('Hello world')
 })
