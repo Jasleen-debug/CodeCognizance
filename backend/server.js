@@ -10,14 +10,13 @@ dotenv.config()
 const app = express()
 const PORT = process.env.PORT;
 
-// Define the allowed origin
-const allowedOrigin = 'http://localhost:5173';
+const corsOptions = {
+  origin: 'http://localhost:5173',
+  credentials: true,
+};
 
 // Apply CORS middleware
-app.use(cors({
-  origin: allowedOrigin,
-  credentials: true
-}));
+app.use(cors(corsOptions));
 // Parse JSON bodies
 app.use(express.json())
 // Parse URL-encoded bodies

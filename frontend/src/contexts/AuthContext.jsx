@@ -1,6 +1,6 @@
-import { createContext, useState, useEffect } from "react"
+import { createContext, useState, } from "react"
 import PropTypes from 'prop-types'
-import {login as loginService, logout as logoutService, checkAuth as checkAuthService} from '../services/authService'
+import {login as loginService, logout as logoutService} from '../services/authService'
 
 export const AuthContext = createContext()
 
@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
       setAuth({
         isAuthenticated: true,
         loading: false,
-        user: response.data.user
+        user: response.user
       })
     } catch (error) {
       console.error('Login error: ', error)
@@ -38,32 +38,8 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await checkAuthService()
-        setAuth({
-          isAuthenticated: true,
-          loading: false,
-          user: response.data.user
-        })
-      } catch (error) {
-        if (error.response && error.response.status === 401) {
-          setAuth({
-            isAuthenticated: false,
-            loading: false,
-            user: null
-          });
-        } else {
-          console.error('Error checking auth status:', error);
-        }
-      }
-    }
-    checkAuth()
-  },[])
-
   return (
-    <AuthContext.Provider value={{ auth, login, logout }}>
+    <AuthContext.Provider value={{ auth, setAuth, login, logout }}>
       {children}
     </AuthContext.Provider>
   )

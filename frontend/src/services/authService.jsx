@@ -15,6 +15,8 @@ export const logout = async () => {
 };
 
 export const checkAuth = async () => {
+  console.log("Sending checkAuth request");
   const response = await axios.get('http://localhost:5000/auth/checkAuth', { withCredentials: true });
+  console.log("CheckAuth Response:", response.data);
   return response.data;
 };

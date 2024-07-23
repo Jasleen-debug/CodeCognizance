@@ -5,9 +5,40 @@ import RegistrationForm from "./components/RegistrationForm";
 import LoginForm from "./components/LoginForm"
 import { useContext } from 'react';
 import PropTypes from 'prop-types'
+//import { checkAuth } from './services/authService';
 
 const PrivateRoute = ({ element }) => {
   const { auth } = useContext(AuthContext)
+
+  /* useEffect(() => {
+    const verifyAuth = async () => {
+      try {
+        const authData = await checkAuth();
+        console.log("Auth Data:", authData); // Debugging
+        setAuth({
+          isAuthenticated: authData.isAuthenticated,
+          loading: false,
+          user: authData.user,
+        });
+      } catch (error) {
+        console.error("Error checking auth status:", error);
+        setAuth({
+          isAuthenticated: false,
+          loading: false,
+          user: null,
+        });
+      }
+    };
+
+    if (!auth.isAuthenticated && auth.loading) {
+      verifyAuth();
+    }
+  }, [auth.loading, setAuth]); */
+
+  console.log("Auth State in PrivateRoute:", auth);
+  if (auth.loading) {
+    return <div>Loading...</div>; // Display a loading state if needed
+  }
   return auth.isAuthenticated ? element : <Navigate to="/login"/>
 }
 PrivateRoute.propTypes = {
@@ -46,9 +77,10 @@ const WelcomePage = () => {
   const handleLogout = () => {
     logout()
   }
+  console.log("here")
   return (
     <>
-      <h1>Welcome, {auth.user?.name}</h1>
+      <h1>Welcome, {auth.user?.firstName}</h1>
       <button onClick={handleLogout}>Logout</button>
     </>
   )

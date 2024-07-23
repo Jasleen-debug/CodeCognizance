@@ -33,7 +33,7 @@ export const register = async (req,res) => {
 
     //Generate a JWT token
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
+    console.log('Generated Token in register:', token);
     //Respond with the token and user information
     res.status(201).json({token, user: newUser})
   } catch (error) {
@@ -61,7 +61,7 @@ export const login = async (req, res) => {
 
     //Generate a JWT token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' })
-
+    console.log('Generated Token in login:', token);
     //Store JWT token in an HTTP-only cookie
     const cookieOptions = {
       expiresIn: new Date(Date.now() + 1*24*60*60*1000),
@@ -86,9 +86,15 @@ export const logout = (req, res) => {
 
 export const checkAuth = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select('-password') //This excludes the password from the response
-    res.json(user)
+    console.log('Auth check initiated');
+    console.log('Request cookies:', req.cookies);
+    if (!req.user) {
+      console.log('User not found in request');
+      return res.status(401).json({ message: 'User not authenticated' });
+    }
+    const user = await User.findById(req.user).select('-password') //This excludes the password from the response
+    res.json({ isAuthenticated: true, user })
 } catch (error) {
-    res.status(500).json({ message: 'Server error'})
+    res.status(500).json({ message: 'Server error', error})
   }
 }
