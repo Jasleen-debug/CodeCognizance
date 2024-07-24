@@ -1,9 +1,12 @@
 //import './App.css'
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import { AuthProvider,AuthContext } from './contexts/AuthContext';
-import RegistrationForm from "./components/RegistrationForm";
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
+import { AuthProvider,AuthContext } from './contexts/AuthContext'
+import RegistrationForm from "./components/RegistrationForm"
 import LoginForm from "./components/LoginForm"
-import { useContext } from 'react';
+import { WelcomePage } from './components/Welcome'
+import { ProblemsPage } from './components/Problems'
+import { ProblemDetailPage } from './components/Problem';
+import { useContext } from 'react'
 import PropTypes from 'prop-types'
 //import { checkAuth } from './services/authService';
 
@@ -54,7 +57,12 @@ function App() {
           <Route path="/" element={<LandingPage/>} />
           <Route path="/register" element={<RegistrationForm />} />
           <Route path="/login" element={<LoginForm />} />
-          <Route path="/welcome" element={<PrivateRoute element={<WelcomePage />} />} />
+          {/* <Route path="/welcome" element={<PrivateRoute element={<WelcomePage />} />} /> */}
+          {/* <Route path="/welcome/problems" element={<PrivateRoute element={<ProblemsPage />} />} /> */}
+          {/*  <Route path="/welcome/problems/:id" element={<PrivateRoute element={<ProblemDetailPage />} />} /> */}
+          <Route path="/welcome" element={<WelcomePage />} />
+          <Route path="/welcome/problems" element={<ProblemsPage />} />
+          <Route path="/welcome/problems/:id" element={<ProblemDetailPage />} />
           {/* Add more routes as needed */}
         </Routes>
       </Router>
@@ -70,20 +78,5 @@ const LandingPage = () => (
     </nav>
   </div>
 );
-
-const WelcomePage = () => {
-  const { auth, logout } = useContext(AuthContext);
-
-  const handleLogout = () => {
-    logout()
-  }
-  console.log("here")
-  return (
-    <>
-      <h1>Welcome, {auth.user?.firstName}</h1>
-      <button onClick={handleLogout}>Logout</button>
-    </>
-  )
-};
 
 export default App;

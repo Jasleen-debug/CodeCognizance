@@ -26,7 +26,7 @@ app.use(cookieParser())
 
 
 app.use('/auth', authRouter)
-app.use('/problem', problemRouter)
+app.use('/problems', problemRouter)
 app.get('/', (req,res) => {
   res.send('Hello world')
 })

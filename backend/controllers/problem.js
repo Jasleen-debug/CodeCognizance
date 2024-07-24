@@ -10,6 +10,20 @@ export const getProblems = async (req, res) => {
   }
 };
 
+// Get a single problem with an id
+export const getProblem = async (req, res) => {
+  try {
+    const problem = await Problem.findById(req.params.id);
+    if (!problem) {
+      return res.status(404).send('Problem not found')
+    }
+    res.json(problem);
+  } catch (error) {
+    console.error('Error fetching problem:', error)
+    res.status(500).json({ message: 'Server Error', error });
+  }
+};
+
 // Create a new problem
 export const createProblem = async (req, res) => {
   const { title, description } = req.body;

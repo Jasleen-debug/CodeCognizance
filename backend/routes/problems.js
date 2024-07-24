@@ -1,5 +1,5 @@
 import express from 'express'
-import { getProblems, createProblem, updateProblem, deleteProblem } from '../controllers/problem.js'
+import { getProblems, getProblem, createProblem, updateProblem, deleteProblem } from '../controllers/problem.js'
 import { authMiddleware } from '../middleware/authMiddleware.js'
 const router = express.Router()
 
@@ -7,6 +7,9 @@ const router = express.Router()
 
 // Route to get all problems
 router.get('/', authMiddleware, getProblems)
+
+// Route to get a problem with a given id
+router.get('/:id', authMiddleware, getProblem)
 
 // Route to create a new problem
 router.post('/', authMiddleware, createProblem)
