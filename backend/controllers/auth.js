@@ -14,7 +14,7 @@ export const register = async (req,res) => {
     //Checking if user already exists in the database
     const existingUser = await User.findOne({ email })
     if (existingUser) {
-      return res.status(400).json({message: 'User already exists'})
+      return res.status(409).json({message: 'User with this email already exists'})
     }
 
     //Hash the password in request body
