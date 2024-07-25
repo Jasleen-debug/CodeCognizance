@@ -12,7 +12,7 @@ export const register = async (formData) => {
 };
 
 export const login = async (formData) => {
-  const response = await axios.post(LOGIN_URL, formData,{ withCredentials:true })
+  const response = await axios.post(LOGIN_URL, JSON.stringify(formData), axios_options)
   return response.data;
 };
 

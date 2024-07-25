@@ -1,8 +1,7 @@
-import { createContext, useState, } from "react"
+import { createContext, useState } from "react"
 import PropTypes from 'prop-types'
-import {login as loginService, logout as logoutService} from '../services/authService'
 
-export const AuthContext = createContext()
+export const AuthContext = createContext({})
 
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({
@@ -11,35 +10,8 @@ export const AuthProvider = ({ children }) => {
     user: null
   })
 
-
-  const login = async (formData) => {
-    try {
-      const response = await loginService(formData)
-      setAuth({
-        isAuthenticated: true,
-        loading: false,
-        user: response.user
-      })
-    } catch (error) {
-      console.error('Login error: ', error)
-    }
-  }
-
-  const logout = async () => {
-    try {
-      await logoutService()
-      setAuth({
-        isAuthenticated: false,
-        loading: false,
-        user: null
-      })
-    } catch (error) {
-        console.error('Logout error: ', error)
-    }
-  }
-
   return (
-    <AuthContext.Provider value={{ auth, setAuth, login, logout }}>
+    <AuthContext.Provider value={{ auth, setAuth}}>
       {children}
     </AuthContext.Provider>
   )

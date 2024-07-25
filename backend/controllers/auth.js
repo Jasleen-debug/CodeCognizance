@@ -75,7 +75,9 @@ export const login = async (req, res) => {
       user: {firstName: user.firstname, lastName: user.lastname, email: user.email}
     })
   } catch (error) {
-    res.status(500).json({message: 'Server error', error})
+      res.status(500).json({ message: 'Server error', error })
+      res.status(400).json({ message: 'Missing username or password', error })
+      res.status(401).json({ message: 'Unauthorized', error })
   }
 }
 
