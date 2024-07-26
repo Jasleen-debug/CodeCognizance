@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { createProblem, getProblems } from '../services/problemService'
+import { createProblem, getProblems, deleteProblem, updateProblem } from '../services/problemService'
 
 export const ProblemsPage = () => {
 
@@ -8,6 +8,10 @@ export const ProblemsPage = () => {
   const [newProblemTitle, setNewProblemTitle] = useState('')
   const [newProblemDescription, setNewProblemDescription] = useState('')
   const [problems, setProblems] = useState([])
+
+  const [editProblemId, setEditProblemId] = useState(null);
+  const [editProblemTitle, setEditProblemTitle] = useState('')
+  const [editProblemDescription, setEditProblemDescription] = useState('')
 
   const handleToggleForm = () => {
     setShowCreateForm(!showCreateForm);
@@ -39,6 +43,42 @@ export const ProblemsPage = () => {
       console.error('Error creating problem:', error)
     }
   }
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await deleteProblem(id)
+      console.log(response)
+      setProblems((prevProblems) => prevProblems.filter((problem) => problem._id !== id))
+    } catch (error) {
+      console.error('Error deleting problem:', error)
+    }
+  }
+
+  const handleEdit = (problem) => {
+    setEditProblemId(problem._id);
+    setEditProblemTitle(problem.title);
+    setEditProblemDescription(problem.description);
+  }
+
+  const handleUpdate = async () => {
+    try {
+      const updatedProblem = await updateProblem(editProblemId, {title: editProblemTitle, description: editProblemDescription});
+      setProblems((prevProblems) =>
+        prevProblems.map((problem) => (problem._id === editProblemId ? updatedProblem : problem))
+      );
+      setEditProblemId(null);
+      setEditProblemTitle('');
+      setEditProblemDescription('');
+    } catch (error) {
+      console.error('Error updating problem:', error);
+    }
+  }
+
+  const handleCloseEditForm = () => {
+    setEditProblemId(null);
+    setEditProblemTitle('');
+    setEditProblemDescription('');
+  };
 
   return (
     <>
@@ -87,17 +127,49 @@ export const ProblemsPage = () => {
           {Array.isArray(problems) && problems.map((problem) => (
             <li key={problem._id} className="p-4 border border-gray-300 rounded">
               <h2 className="text-xl font-semibold mb-2">
-                <Link to={`/welcome/problems/${problem._id}`}>{problem.title}</Link>
+                <Link to={`/problems/${problem._id}`}>{problem.title}</Link>
               </h2>
               <p>{problem.description}</p>
               <div className="mt-4 flex space-x-2">
-                <button className="px-4 py-2 bg-yellow-500 text-white rounded">Edit</button>
-                <button className="px-4 py-2 bg-red-500 text-white rounded">Delete</button>
+                <button onClick={ () => handleEdit(problem)} className="px-4 py-2 bg-yellow-500 text-white rounded">Edit</button>
+                <button onClick={ () => handleDelete(problem._id) } className="px-4 py-2 bg-red-500 text-white rounded">Delete</button>
               </div>
+              {editProblemId === problem._id && (
+                <div className="mt-4 p-4 border border-gray-300 rounded">
+                  <h2 className="text-xl font-semibold mb-2">Edit Problem</h2>
+                  <input
+                    type="text"
+                    value={editProblemTitle}
+                    onChange={(e) => setEditProblemTitle(e.target.value)}
+                    placeholder="Problem Title"
+                    className="block w-full mb-2 p-2 border border-gray-300 rounded"
+                  />
+                  <textarea
+                    value={editProblemDescription}
+                    onChange={(e) => setEditProblemDescription(e.target.value)}
+                    placeholder="Problem Description"
+                    className="block w-full mb-4 p-2 border border-gray-300 rounded"
+                  />
+                  <div className="flex space-x-4">
+                  <button
+                    onClick={handleUpdate}
+                    className="px-4 py-2 bg-green-500 text-white rounded"
+                  >
+                    Update Problem
+                  </button>
+                  <button
+                      onClick={handleCloseEditForm}
+                      className="px-4 py-2 bg-gray-500 text-white rounded"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              )}
             </li>
           ))}
         </ul>
-      )}
+        )}
     </div>
     </>
   )

@@ -55,6 +55,7 @@ export const deleteProblem = async (req, res) => {
   const { id } = req.params;
   try {
     await Problem.findByIdAndDelete(id);
+    console.log(res.json)
     res.json({ message: 'Problem deleted' });
   } catch (error) {
     res.status(500).json({ message: 'Server Error', error });

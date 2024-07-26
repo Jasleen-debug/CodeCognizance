@@ -1,21 +1,29 @@
-import { useContext } from "react";
-import { AuthContext } from "../contexts/AuthContext";
+import { useAuth } from "../hooks/useAuth";
+import { useNavigate, Link } from "react-router-dom";
+import { logout } from "../services/authService";
 
 
 export const WelcomePage = () => {
-  const { auth, logout } = useContext(AuthContext);
+  const { auth, setAuth } = useAuth()
+  const navigate = useNavigate()
 
-  const handleLogout = () => {
-    logout()
+  const logoff = async () => {
+    try {
+      await logout()
+      setAuth({})
+      navigate('/')
+    } catch (error) {
+        console.error('error during logout ', error)
+    }
   }
-  console.log("here")
   return (
     <>
       <h1>Welcome, {auth.user?.firstName}</h1>
-      <button onClick={handleLogout}>Logout</button>
-      <nav>
-        <a href="/welcome/problems">Problems</a>
-      </nav>
+      <p>You are logged in!</p>
+      <br />
+      <Link to="/problems">Go to the problems page</Link>
+      <br />
+      <button onClick={logoff}>Logout</button>
     </>
   )
 };
