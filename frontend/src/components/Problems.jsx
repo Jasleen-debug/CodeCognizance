@@ -126,10 +126,10 @@ export const ProblemsPage = () => {
         <ul className="space-y-4">
           {Array.isArray(problems) && problems.map((problem) => (
             <li key={problem._id} className="p-4 border border-gray-300 rounded">
-              <h2 className="text-xl font-semibold mb-2">
+              <h2 className="text-xl font-semibold mb-2 break-words">
                 <Link to={`/problems/${problem._id}`}>{problem.title}</Link>
               </h2>
-              <p>{problem.description}</p>
+              <p className='break-words'>{problem.description}</p>
               <div className="mt-4 flex space-x-2">
                 <button onClick={ () => handleEdit(problem)} className="px-4 py-2 bg-yellow-500 text-white rounded">Edit</button>
                 <button onClick={ () => handleDelete(problem._id) } className="px-4 py-2 bg-red-500 text-white rounded">Delete</button>
