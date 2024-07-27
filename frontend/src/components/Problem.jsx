@@ -57,8 +57,8 @@ export const ProblemDetailPage = () => {
             onChange={(e) => setLanguage(e.target.value)}
             className="p-2 border border-gray-300 rounded mb-4"
             >
-            <option value="c++">C++</option>
-            <option value="python">Python</option>
+            <option value="cpp">C++</option>
+            <option value="py">Python</option>
             <option value="java">Java</option>
           </select>
         </div>
