@@ -4,6 +4,7 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import { authRouter } from './routes/auth.js'
 import { problemRouter } from './routes/problems.js'
+import { runRouter } from './routes/run.js'
 import DBConnection from './database/db.js'
 import cookieParser from 'cookie-parser'
 dotenv.config()
@@ -27,6 +28,7 @@ app.use(cookieParser())
 
 app.use('/auth', authRouter)
 app.use('/problems', problemRouter)
+app.use('/run', runRouter)
 app.get('/', (req,res) => {
   res.send('Hello world')
 })
