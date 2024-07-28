@@ -17,3 +17,5 @@
 # Ignore editor specific files
 #.vscode/
 #.idea/
+backend/helpers/codes
+backend/helpers/outputs

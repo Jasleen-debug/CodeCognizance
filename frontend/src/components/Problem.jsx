@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { getProblem } from '../services/problemService'
+import { getProblem,run } from '../services/problemService'
 
 export const ProblemDetailPage = () => {
   const { id } = useParams();
@@ -28,8 +28,13 @@ export const ProblemDetailPage = () => {
     return <div>Loading...</div>
   }
   const handleRunCode = async () => {
-    // Logic here
-    setOutput('')
+    try {
+      const response = await run({language,code})
+      setOutput(response.output)
+    } catch (error) {
+      console.log(error)
+    }
+
   };
 
   return (

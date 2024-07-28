@@ -1,6 +1,8 @@
 import axios from 'axios'
 
-const axios_options = { headers: { 'Content-Type': 'application/json' }, withCredentials: true}
+const axios_options = { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+
+const RUN_URL = 'http://localhost:5000/run'
 
 // Fetch all problems
 export const getProblems = async () => {
@@ -36,5 +38,12 @@ export const deleteProblem = async (id) => {
   const DELETE_PROBLEM_URL = `http://localhost:5000/problems/${id}`
   console.log (DELETE_PROBLEM_URL)
   const response = await axios.delete(DELETE_PROBLEM_URL, axios_options)
+  return response.data
+}
+
+//run the problem code
+export const run = async (formData) => {
+  const response = await axios.post(RUN_URL, JSON.stringify(formData), axios_options)
+  console.log(response)
   return response.data
 }
