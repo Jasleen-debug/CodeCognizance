@@ -1,7 +1,7 @@
 import { exec } from 'child_process'
-const executePy = async (filepath) => {
+const executePy = async (filepath, inputFilePath) => {
   return new Promise((resolve, reject) => {
-    exec(`python "${filepath}"`,
+    exec(`python "${filepath}" < ${inputFilePath}`,
       (error, stdout, stderr) => {
         if (error) {
           reject({error, stderr})

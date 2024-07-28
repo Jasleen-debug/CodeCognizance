@@ -29,7 +29,7 @@ export const ProblemDetailPage = () => {
   }
   const handleRunCode = async () => {
     try {
-      const response = await run({language,code})
+      const response = await run({language,code,input})
       setOutput(response.output)
     } catch (error) {
       console.log(error)
