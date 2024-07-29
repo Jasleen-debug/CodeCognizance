@@ -26,9 +26,14 @@ const run = async (req, res) => {
         output = await executeJava(filePath, inputFilePath)
         break
     }
+    console.log(filePath)
+    console.log(inputFilePath)
+    console.log(output)
     res.json({filePath, inputFilePath, output})
   } catch (error) {
-      res.json({output: error.stderr})
+    console.log(error)
+    res.json({ output: error.stderr })
+
   }
 }
 

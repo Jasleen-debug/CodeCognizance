@@ -8,8 +8,10 @@ export const ProblemDetailPage = () => {
 
   const [input, setInput] = useState('')
   const [code, setCode] = useState('')
-  const [output, setOutput] = useState('');
+  const [output, setOutput] = useState('')
+  //const [verdict, setVerdict] = useState('')
   const [language, setLanguage] = useState('Java')
+  const [testResults, setTestResuts] = useState([])
 
   useEffect(() => {
     const fetchProblem = async () => {
@@ -29,6 +31,7 @@ export const ProblemDetailPage = () => {
   }
   const handleRunCode = async () => {
     try {
+      setTestResuts([])
       const response = await run({language,code,input})
       setOutput(response.output)
     } catch (error) {
@@ -38,8 +41,9 @@ export const ProblemDetailPage = () => {
 
   const handleJudgeCode = async () => {
     try {
+      setTestResuts([])
       const response = await judge({language, code, problemId: id})
-      setOutput('Judging...good code - keep it up',response)
+      setTestResuts(response.output.results)
     } catch (error) {
       console.log(error)
     }
@@ -59,7 +63,11 @@ export const ProblemDetailPage = () => {
             onChange={(e) => setInput(e.target.value)}
           placeholder="Input"
           className="block w-full h-24 p-2 border border-gray-300 rounded overflow-y-auto"
-        />
+          />
+          <div className="w-full h-48 p-2 border border-gray-300 rounded overflow-y-auto mt-4">
+            <h2 className="text-xl font-semibold mb-2">Output</h2>
+            <pre>{output}</pre>
+          </div>
       </div>
       {/* Right Side */}
       <div className="w-1/2 p-4 flex flex-col overflow-y-auto">
@@ -93,9 +101,20 @@ export const ProblemDetailPage = () => {
         >
           Judge Code
         </button>
-        <div className="flex-grow p-4 border border-gray-300 rounded overflow-y-auto">
-          <h2 className="text-xl font-semibold mb-2">Output</h2>
-          <pre>{output}</pre>
+        <div className="flex-grow p-2 border border-gray-300 rounded overflow-y-auto">
+          <h2 className="text-xl font-semibold mb-2">Verdict</h2>
+            {/* <pre>{verdict}</pre> */}
+            {/* <p>Overall Success: {testResults.every(result => result.isCorrect).toString()}</p> */}
+            {testResults.map((result, index) => (
+                <div key={index}>
+                <h3>{result.title}</h3>
+                    <p>Input: {result.input}</p>
+                    <p>Expected Output: {result.expectedOutput}</p>
+                    <p>User Output: {result.userOutput}</p>
+                <p>Correct: {result.isCorrect.toString()}</p>
+                <br/>
+              </div>
+            ))}
         </div>
       </div>
       </div>
