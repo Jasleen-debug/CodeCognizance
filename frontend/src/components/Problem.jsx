@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { getProblem,run } from '../services/problemService'
+import { getProblem,run, judge } from '../services/problemService'
 
 export const ProblemDetailPage = () => {
   const { id } = useParams();
@@ -34,8 +34,16 @@ export const ProblemDetailPage = () => {
     } catch (error) {
       console.log(error)
     }
+  }
 
-  };
+  const handleJudgeCode = async () => {
+    try {
+      const response = await judge({language, code, problemId: id})
+      setOutput('Judging...good code - keep it up',response)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <div className='p-8 overflow-auto'>
@@ -78,6 +86,12 @@ export const ProblemDetailPage = () => {
           className="mb-4 px-4 py-2 bg-green-500 text-white rounded"
         >
           Run Code
+          </button>
+          <button
+          onClick={handleJudgeCode}
+          className="mb-4 px-4 py-2 bg-green-500 text-white rounded"
+        >
+          Judge Code
         </button>
         <div className="flex-grow p-4 border border-gray-300 rounded overflow-y-auto">
           <h2 className="text-xl font-semibold mb-2">Output</h2>

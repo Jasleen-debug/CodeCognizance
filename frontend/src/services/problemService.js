@@ -3,6 +3,7 @@ import axios from 'axios'
 const axios_options = { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
 
 const RUN_URL = 'http://localhost:5000/run'
+const JUDGE_URL = 'http://localhost:5000/judge'
 
 // Fetch all problems
 export const getProblems = async () => {
@@ -45,5 +46,11 @@ export const deleteProblem = async (id) => {
 export const run = async (formData) => {
   const response = await axios.post(RUN_URL, JSON.stringify(formData), axios_options)
   console.log("hr in front", response)
+  return response.data
+}
+
+export const judge = async (formData) => {
+  const response = await axios.post(JUDGE_URL, JSON.stringify(formData), axios_options)
+  console.log("here in frontend", response)
   return response.data
 }

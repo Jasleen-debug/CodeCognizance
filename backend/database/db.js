@@ -1,8 +1,7 @@
 // Database connection configuration
 import mongoose from "mongoose";
 import dotenv from "dotenv"
-import path from "path"
-
+//import seedTestCases from "./seedTestCases.js"
 dotenv.config({ path: '../.env' })
 
 const DBConnection = async () => {
@@ -11,6 +10,8 @@ const DBConnection = async () => {
 
     await mongoose.connect(MONGO_URI)
     console.log('MongoDB connected successfully')
+    //seed the database after the connection
+    //await seedTestCases()
   } catch (error) {
     console.log('Error while connecting to MongoDB: ', error.message);
     process.exit(1)
