@@ -87,7 +87,7 @@ export const ProblemsPage = () => {
 
       {/* Button to toggle the create form */}
       <button
-        className="mb-4 px-4 py-2 bg-blue-500 text-white rounded"
+        className="mb-4 px-4 py-2 bg-indigo-600 text-white rounded"
         onClick={handleToggleForm}
       >
         {showCreateForm ? 'Hide Form' : 'Create New Problem'}

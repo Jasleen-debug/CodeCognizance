@@ -2,10 +2,17 @@ import { Outlet } from "react-router-dom"
 
 const Layout = () => {
   return (
-    <main>
-      <h6 >CODE COGNIZANCE</h6>
-      <Outlet/>
-    </main>
+    <div className="min-h-screen flex flex-col bg-gray-100">
+      <header className="w-full py-4 bg-indigo-600 text-white text-center text-3xl font-bold">
+        Code Cognizance
+      </header>
+      <main className="flex-grow p-4">
+          <Outlet/>
+      </main>
+      <footer className="w-full py-4 bg-indigo-600 text-white text-center">
+        © 2024 Code Cognizance
+      </footer>
+    </div>
   )
 }
 
