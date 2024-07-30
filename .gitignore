@@ -1,15 +1,22 @@
 # Ignore node_modules directory
-node_modules/
+# node_modules/
 
 # Ignore environment variables file
 .env
 
+# Vite build output
+# used by Vite to store cache and build artifacts, which helps improve development speed.
+.vite
+
 # Ignore build output (for React)
-build/
+# build/
 
 # Ignore operating system specific files
-.DS_Store
+#.DS_Store
 
 # Ignore editor specific files
-.vscode/
-.idea/
+#.vscode/
+#.idea/
+backend/helpers/codes
+backend/helpers/outputs
+backend/helpers/inputs
