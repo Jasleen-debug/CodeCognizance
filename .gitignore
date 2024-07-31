@@ -3,6 +3,7 @@
 
 # Ignore environment variables file
 .env
+backend/.env
 
 # Vite build output
 # used by Vite to store cache and build artifacts, which helps improve development speed.
