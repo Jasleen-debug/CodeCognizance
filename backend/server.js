@@ -8,6 +8,7 @@ import { runRouter } from './routes/run.js'
 import DBConnection from './database/db.js'
 import cookieParser from 'cookie-parser'
 import { judgeRouter } from './routes/judge.js'
+import {submissionRouter} from './routes/submissions.js'
 dotenv.config()
 
 const app = express()
@@ -29,6 +30,7 @@ app.use(cookieParser())
 
 app.use('/auth', authRouter)
 app.use('/problems', problemRouter)
+app.use('/submissions', submissionRouter)
 app.use('/run', runRouter)
 app.use('/judge', judgeRouter)
 app.get('/', (req,res) => {

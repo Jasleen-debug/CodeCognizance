@@ -18,7 +18,7 @@ const TestCaseSchema = new mongoose.Schema({
         type: String,
         required: true
     }
-});
+})
 
 const TestCase = mongoose.model('TestCase', TestCaseSchema)
 

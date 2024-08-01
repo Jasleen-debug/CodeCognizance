@@ -17,15 +17,23 @@ const executeCpp = async (filepath, inputFilePath) => { //D:\CodeCognizance\back
   const outPath = path.join(outputPath, output_filename) //D:\CodeCognizance\backend\helpers\outputs\bc4dc755-716d-4083-88e9-a5a42cbf4e58.exe
 
   return new Promise((resolve, reject) => {
+    const startTime = Date.now()//Start time of code execution
     exec(`g++ ${filepath} -o ${outPath} && cd ${outputPath} && ./${output_filename} < ${inputFilePath}`, //.\\ => ./ mac
       (error, stdout, stderr) => {
+        const endTime = Date.now()
+        const runtime = endTime - startTime
+        const feedback = 'Compiled Successfully'
+
         if (error) {
-          reject({error, stderr})
+          const em = `${error}\n${stderr}`
+          feedback = 'Compilation Error'
+          reject({ output: em, runtime, feedback})
         }
         if (stderr) {
-          reject(stderr)
+          feedback = 'Runtime Error'
+          reject({ output: stderr, runtime, feedback })
         }
-        resolve(stdout)
+        resolve({ output: stdout, runtime, feedback })
       }
     )
   })

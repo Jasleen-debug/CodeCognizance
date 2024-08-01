@@ -1,15 +1,22 @@
 import { exec } from 'child_process'
 const executePy = async (filepath, inputFilePath) => {
   return new Promise((resolve, reject) => {
+    const startTime = Date.now()
     exec(`python "${filepath}" < ${inputFilePath}`,
       (error, stdout, stderr) => {
+        const endTime = Date.now()
+        const runtime = endTime - startTime
+        const feedback = 'Compiled Successfully'
         if (error) {
-          reject({error, stderr})
+          const em = `${error}\n${stderr}`
+          feedback = 'Compilation Error'
+          reject({output: em, runtime, feedback})
         }
         if (stderr) {
-          reject(stderr)
+          feedback = 'Runtime Error'
+          reject({output: stderr, runtime, feedback})
         }
-        resolve(stdout)
+        resolve({ output: stdout, runtime, feedback })
       }
     )
   })
