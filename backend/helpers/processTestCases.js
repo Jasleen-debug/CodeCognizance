@@ -8,7 +8,7 @@ import executeJava from './executeJava.js'
 
 const processTestCases = async (language, codeFilePath, problemId) => {
   const testCases = await TestCase.find({ problemId }).sort({ title: 1 })
-  const results = []
+  let results = []
   if (!testCases || testCases.length === 0) {
     return "Unable to provide a verdict as no test case found"
   }
@@ -33,7 +33,7 @@ const processTestCases = async (language, codeFilePath, problemId) => {
       console.log(compileResult)// output and runtime result.output and result.runtime
       const isCorrect = compileResult.output.trim() === expectedOutput.trim()
 
-      const message = ''
+      let message = ''
 
       if (compileResult.feedback === 'Compilation Error' && !isCorrect) {
         message = compileResult.feedback
@@ -59,14 +59,15 @@ const processTestCases = async (language, codeFilePath, problemId) => {
         break
       }
     } catch (error) {
-      console.log(error)
+      console.log('Here in the catch - message', error.message)
+      console.log('Here in the catch', error)
       results.push({
         title,
         input,
         expectedOutput,
-        userOutput: error.message || error,
-        runtime: 0,
-        description: 'Error during execution',
+        userOutput: error.message || error.output,
+        runtime: error.runtime,
+        description: error.feedback,
         isCorrect: false
       })
       break

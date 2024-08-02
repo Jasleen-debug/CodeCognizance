@@ -6,7 +6,7 @@ const submissionSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
-  problemId: {
+  problemTitle: {
     type: String,
     ref: 'Problem',
     required: true,

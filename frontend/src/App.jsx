@@ -8,7 +8,7 @@ import LoginForm from "./components/LoginForm"
 import { WelcomePage } from './components/Welcome'
 import { ProblemsPage } from './components/Problems'
 import { ProblemDetailPage } from './components/Problem'
-
+import { SubmissionsPage } from './components/Submissions'
 
 
 function App() {
@@ -24,6 +24,7 @@ function App() {
           <Route path="/" element={<WelcomePage />} />
           <Route path="problems" element={<ProblemsPage />} />
           <Route path="problems/:id" element={<ProblemDetailPage />} />
+          <Route path="submissions" element={<SubmissionsPage />} />
         </Route>
         {/* Catch All */}
         <Route path="*" element={<Missing />} />

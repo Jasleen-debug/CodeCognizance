@@ -5,3 +5,5 @@ const router = express.Router()
 
 // Route to get all submissions
 router.get('/', authMiddleware, getSubmissions)
+
+export { router as submissionRouter }

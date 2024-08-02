@@ -12,6 +12,7 @@ export const ProblemDetailPage = () => {
   const [loading, setLoading] = useState(false)
   const [language, setLanguage] = useState('Java')
   const [testResults, setTestResuts] = useState([])
+  const [verdict, setVerdict] = useState('')
 
   useEffect(() => {
     const fetchProblem = async () => {
@@ -30,9 +31,9 @@ export const ProblemDetailPage = () => {
     return <div>Loading...</div>
   }
   const handleRunCode = async () => {
-    setLoading(true)
     try {
       setTestResuts([])
+      setVerdict('')
       const response = await run({language,code,input})
       setOutput(response.output)
     } catch (error) {
@@ -46,8 +47,10 @@ export const ProblemDetailPage = () => {
     setLoading(true)
     try {
       setTestResuts([])
+      setVerdict('')
       const response = await judge({language, code, problemId: id})
-      setTestResuts(response.output.results)
+      setTestResuts(response.results)
+      setVerdict(response.verdict)
     } catch (error) {
       console.log(error)
     } finally {
@@ -114,11 +117,15 @@ export const ProblemDetailPage = () => {
             <h2 className="text-xl font-semibold mb-2">Verdict</h2>
             {loading && <div>Loading...</div>}
             {/* <pre>{verdict}</pre> */}
-            {/* <p>Overall Success: {testResults.every(result => result.isCorrect).toString()}</p> */}
+            {verdict && <div>
+                <p>***{verdict}***</p>
+                <br />
+                <br/></div>
+            }
             {testResults.map((result, index) => (
-                <div key={index}>
+              <div key={index}>
+
                 <h3>{result.title}</h3>
-                    <p>Input: {result.input}</p>
                     <p>Expected Output: {result.expectedOutput}</p>
                     <p>User Output: {result.userOutput}</p>
                 <p>Correct: {result.isCorrect.toString()}</p>

@@ -14,25 +14,27 @@ const run = async (req, res) => {
   try {
     const filePath = await generateFile(language, code)
     const inputFilePath = await generateInputFile(input)
-    let output
+    let compileOutput
     switch (language) {
       case 'cpp':
-        output = await executeCpp(filePath, inputFilePath)
+        compileOutput = await executeCpp(filePath, inputFilePath)
         break
       case 'py':
-        output = await executePy(filePath, inputFilePath)
+        compileOutput = await executePy(filePath, inputFilePath)
         break
       case 'java':
-        output = await executeJava(filePath, inputFilePath)
+        compileOutput = await executeJava(filePath, inputFilePath)
         break
     }
     console.log(filePath)
     console.log(inputFilePath)
+    console.log(compileOutput)
+    const output = compileOutput.output
     console.log(output)
     res.json({filePath, inputFilePath, output})
   } catch (error) {
     console.log(error)
-    res.json({ output: error.stderr })
+    res.json({ output: error.output })
 
   }
 }
