@@ -9,6 +9,7 @@ import { WelcomePage } from './components/Welcome'
 import { ProblemsPage } from './components/Problems'
 import { ProblemDetailPage } from './components/Problem'
 import { SubmissionsPage } from './components/Submissions'
+import Profile from './components/Profile'
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         {/* private routes */}
         <Route element={<RequireAuth />}>
           <Route path="/" element={<WelcomePage />} />
+          <Route path="profile" element={<Profile />} />
           <Route path="problems" element={<ProblemsPage />} />
           <Route path="problems/:id" element={<ProblemDetailPage />} />
           <Route path="submissions" element={<SubmissionsPage />} />
