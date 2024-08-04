@@ -10,8 +10,10 @@ export const ProblemDetailPage = () => {
   const [code, setCode] = useState('')
   const [output, setOutput] = useState('')
   const [loading, setLoading] = useState(false)
-  const [language, setLanguage] = useState('Java')
-  const [testResults, setTestResuts] = useState([])
+  const [language, setLanguage] = useState('cpp')
+  const [testResults, setTestResults] = useState([])
+  const [verdict, setVerdict] = useState('')
+
 
   useEffect(() => {
     const fetchProblem = async () => {
@@ -30,9 +32,9 @@ export const ProblemDetailPage = () => {
     return <div>Loading...</div>
   }
   const handleRunCode = async () => {
-    setLoading(true)
     try {
-      setTestResuts([])
+      setTestResults([])
+      setVerdict('')
       const response = await run({language,code,input})
       setOutput(response.output)
     } catch (error) {
@@ -45,9 +47,11 @@ export const ProblemDetailPage = () => {
   const handleJudgeCode = async () => {
     setLoading(true)
     try {
-      setTestResuts([])
+      setTestResults([])
+      setVerdict('')
       const response = await judge({language, code, problemId: id})
-      setTestResuts(response.output.results)
+      setTestResults(response.results)
+      setVerdict(response.verdict)
     } catch (error) {
       console.log(error)
     } finally {
@@ -114,11 +118,15 @@ export const ProblemDetailPage = () => {
             <h2 className="text-xl font-semibold mb-2">Verdict</h2>
             {loading && <div>Loading...</div>}
             {/* <pre>{verdict}</pre> */}
-            {/* <p>Overall Success: {testResults.every(result => result.isCorrect).toString()}</p> */}
-            {testResults.map((result, index) => (
-                <div key={index}>
+            {verdict && <div>
+                <p>***{verdict}***</p>
+                <br />
+                <br/></div>
+            }
+            {testResults.length > 0 && testResults.map((result, index) => (
+              <div key={index}>
+
                 <h3>{result.title}</h3>
-                    <p>Input: {result.input}</p>
                     <p>Expected Output: {result.expectedOutput}</p>
                     <p>User Output: {result.userOutput}</p>
                 <p>Correct: {result.isCorrect.toString()}</p>

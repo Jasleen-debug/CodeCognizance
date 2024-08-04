@@ -30,10 +30,10 @@ const LoginForm = () => {
     const formData = { email, password }
     try {
       const response = await login(formData)
-      const accessToken = response?.token
+      //const accessToken = response?.token
       const user = response?.user
       //Will also need to retrieve role information here whenever that part is implemented
-      setAuth({ user, password, accessToken })
+      setAuth({ user })
       setEmail('')
       setPassword('')
       navigate(from, { replace: true })

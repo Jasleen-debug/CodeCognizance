@@ -3,5 +3,3 @@ helpers/codes
 helpers/outputs
 helpers/inputs
 .env
-frontend/.env
-frontend/.env.production

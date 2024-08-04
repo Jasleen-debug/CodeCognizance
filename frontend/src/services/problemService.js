@@ -1,9 +1,9 @@
 import axios from 'axios'
 
 const axios_options = { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
-
-const RUN_URL = 'http://localhost:5000/run'
-const JUDGE_URL = 'http://localhost:5000/judge'
+const apiUrl = import.meta.env.VITE_BACKEND_URL
+const RUN_URL = `${apiUrl}/run`
+const JUDGE_URL = `${apiUrl}/judge`
 
 // Fetch all problems
 export const getProblems = async () => {
