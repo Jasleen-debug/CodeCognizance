@@ -10,9 +10,10 @@ export const ProblemDetailPage = () => {
   const [code, setCode] = useState('')
   const [output, setOutput] = useState('')
   const [loading, setLoading] = useState(false)
-  const [language, setLanguage] = useState('Java')
-  const [testResults, setTestResuts] = useState([])
+  const [language, setLanguage] = useState('cpp')
+  const [testResults, setTestResults] = useState([])
   const [verdict, setVerdict] = useState('')
+
 
   useEffect(() => {
     const fetchProblem = async () => {
@@ -32,7 +33,7 @@ export const ProblemDetailPage = () => {
   }
   const handleRunCode = async () => {
     try {
-      setTestResuts([])
+      setTestResults([])
       setVerdict('')
       const response = await run({language,code,input})
       setOutput(response.output)
@@ -46,10 +47,10 @@ export const ProblemDetailPage = () => {
   const handleJudgeCode = async () => {
     setLoading(true)
     try {
-      setTestResuts([])
+      setTestResults([])
       setVerdict('')
       const response = await judge({language, code, problemId: id})
-      setTestResuts(response.results)
+      setTestResults(response.results)
       setVerdict(response.verdict)
     } catch (error) {
       console.log(error)
@@ -122,7 +123,7 @@ export const ProblemDetailPage = () => {
                 <br />
                 <br/></div>
             }
-            {testResults.map((result, index) => (
+            {testResults.length > 0 && testResults.map((result, index) => (
               <div key={index}>
 
                 <h3>{result.title}</h3>

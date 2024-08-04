@@ -7,24 +7,23 @@ import Problem from '../models/problem.js'
 const judge = async (req, res) => {
   const { language = 'cpp', code, problemId } = req.body
   const userId  = req.user //we will get the id from auth middleware
-  if (code === undefined) {
-    return res.status(500).json({"success": false, message: "Empty code"})
+
+  // Basic input validation
+  if (!code || typeof code !== 'string' || code.trim() === '') {
+    return res.json({ verdict: 'Verdict not availabe at the time - You need to write the code', results: [] });
   }
 
   try {
     const codeFilePath = await generateFile(language, code)
     const { success, results } = await processTestCases(language, codeFilePath, problemId)
-    console.log(success)
-    console.log(results)
-    console.log(userId)
+
     const user = await User.findById(userId)
-    console.log(user)
-    console.log(problemId)
+
     const problem = await Problem.findById(problemId)
-    console.log(problem)
+   
 
     if (!user || !problem) {
-      return res.status(500).json({ success: false, message: "User or Problem not found" })
+      return res.status(500).json({ success: false, results: ["User or Problem not found" ]})
     }
     //const username = user.email.split('@')[0] will do this for leader board not per user submissions
     const problemTitle = problem.title
@@ -53,7 +52,7 @@ const judge = async (req, res) => {
       runtime: averageRuntime,
       language: newLanguage //and ,submissionResults: result - entire results array - do we need it - think about it
     })
-    console.log(newSubmission)
+
     await newSubmission.save()
 
     res.json({codeFilePath, verdict, results})

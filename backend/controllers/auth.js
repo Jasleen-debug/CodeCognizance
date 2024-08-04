@@ -33,7 +33,7 @@ export const register = async (req,res) => {
 
     //Generate a JWT token
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    console.log('Generated Token in register:', token);
+
     //Respond with the token and user information
     res.status(201).json({token, user: newUser})
   } catch (error) {
@@ -61,16 +61,18 @@ export const login = async (req, res) => {
 
     //Generate a JWT token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' })
-    console.log('Generated Token in login:', token);
     //Store JWT token in an HTTP-only cookie
     const cookieOptions = {
       expires: new Date(Date.now() + 1*24*60*60*1000),
       httpOnly: true, //Can only be changed by server not client
     }
+    //https secure: process.env.NODE_ENV === 'production', //// Only true if in production
+    //https sameSite: 'none' // none for cross-site
+
     //Send the response and token in the cookie
     //Sending the token both in an HttpOnly cookie
     //and in the JSON response can potentially reduce the security of our authentication system
-    //it was for testing purposes only removing it.
+    //it was for testing purposes only removing it.node
     res.status(200).cookie('token', token, cookieOptions).json({
       message: 'User is logged in',
       success: true,
@@ -91,7 +93,6 @@ export const logout = (req, res) => {
 export const checkAuth = async (req, res) => {
   try {
     console.log('Auth check initiated');
-    console.log('Request cookies:', req.cookies);
     if (!req.user) {
       console.log('User not found in request');
       return res.status(401).json({ message: 'User not authenticated' });

@@ -4,6 +4,7 @@ import { useAuth } from "../hooks/useAuth"
 
 const Profile = () => {
   const { auth } = useAuth()
+
   return (
     <div className="max-w-lg mx-auto p-4 bg-white shadow-md rounded-md">
       <h1 className="text-2xl font-semibold mb-4">Profile</h1>

@@ -4,12 +4,22 @@ import executePy from "../helpers/executePy.js"
 import executeJava from "../helpers/executeJava.js"
 import generateInputFile from "../helpers/generateInputFile.js"
 
+
 const run = async (req, res) => {
   const { language = 'cpp', code, input } = req.body // If lang not provided by user, treat the code as cpp type by default
 
-  if (code === undefined) {
-    return res.status(500).json({"success": false, message: "Empty"})
+
+
+  // Basic input validation
+  if (!code || typeof code !== 'string' || code.trim() === '') {
+    return res.json({ success: false, output: "Code is required" });
   }
+
+  if (input === undefined || input === '' || typeof input !== 'string') {
+    return res.json({ success: false, output: "Input is required" });
+  }
+
+  // Sanitize code and input - no it is changing my code
 
   try {
     const filePath = await generateFile(language, code)
@@ -26,11 +36,8 @@ const run = async (req, res) => {
         compileOutput = await executeJava(filePath, inputFilePath)
         break
     }
-    console.log(filePath)
-    console.log(inputFilePath)
-    console.log(compileOutput)
+
     const output = compileOutput.output
-    console.log(output)
     res.json({filePath, inputFilePath, output})
   } catch (error) {
     console.log(error)

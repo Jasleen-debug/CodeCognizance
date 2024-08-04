@@ -24,3 +24,5 @@ dist-ssr
 *.sw?
 # Vite build output
 .vite
+.env
+.env.production

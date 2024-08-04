@@ -30,7 +30,7 @@ const processTestCases = async (language, codeFilePath, problemId) => {
           compileResult = await executeJava(codeFilePath, inputFilePath)
         break
       }
-      console.log(compileResult)// output and runtime result.output and result.runtime
+      console.log('result of comple',compileResult)// output and runtime result.output and result.runtime
       const isCorrect = compileResult.output.trim() === expectedOutput.trim()
 
       let message = ''
@@ -59,15 +59,13 @@ const processTestCases = async (language, codeFilePath, problemId) => {
         break
       }
     } catch (error) {
-      console.log('Here in the catch - message', error.message)
-      console.log('Here in the catch', error)
       results.push({
         title,
         input,
         expectedOutput,
         userOutput: error.message || error.output,
-        runtime: error.runtime,
-        description: error.feedback,
+        runtime: error.runtime || 0,
+        description: error.feedback || 'There is an error in your code',
         isCorrect: false
       })
       break

@@ -1,9 +1,10 @@
 import axios from 'axios'
+const apiUrl = import.meta.env.VITE_BACKEND_URL
 
-const REGISTER_URL = 'http://localhost:5000/auth/register'
-const LOGIN_URL = 'http://localhost:5000/auth/login'
-const LOGOUT_URL = 'http://localhost:5000/auth/logout'
-const CHECKAUTH_URL = 'http://localhost:5000/auth/checkAuth'
+const REGISTER_URL = `${apiUrl}/auth/register`
+const LOGIN_URL = `${apiUrl}/auth/login`
+const LOGOUT_URL = `${apiUrl}/auth/logout`
+const CHECKAUTH_URL = `${apiUrl}/auth/checkAuth`
 
 const axios_options = { headers: { 'Content-Type': 'application/json' }, withCredentials: true}
 

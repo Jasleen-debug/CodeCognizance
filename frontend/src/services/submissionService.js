@@ -4,7 +4,8 @@ const axios_options = { headers: { 'Content-Type': 'application/json' }, withCre
 
 // Fetch all submissions
 export const getSubmissions = async () => {
-  const GET_SUBMISSIONS_URL = 'http://localhost:5000/submissions'
+  const apiUrl = import.meta.env.VITE_BACKEND_URL
+  const GET_SUBMISSIONS_URL = `${apiUrl}/submissions`
   const response = await axios.get(GET_SUBMISSIONS_URL, axios_options)
   console.log('I am here in sub service')
   console.log(response.data)

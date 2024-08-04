@@ -12,10 +12,12 @@ import {submissionRouter} from './routes/submissions.js'
 dotenv.config()
 
 const app = express()
-const PORT = process.env.PORT;
+const PORT = process.env.PORT
+const HOST = process.env.HOST
+const ORIGIN = process.env.ORIGIN
 
 const corsOptions = {
-  origin: 'http://localhost:5173',
+  origin: ORIGIN || 'http://localhost:5173',
   credentials: true,
 };
 
@@ -37,12 +39,12 @@ app.get('/', (req,res) => {
   res.send('Hello world')
 })
 
-
+// Also need to include paths to ssl certificates files, then store credentials and create an https server - I need a ssl certificate
 
 // Connect to the database and start the server
 DBConnection().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`)
+  app.listen(PORT,HOST, () => {
+    console.log(`Server is running on http://${HOST}:${PORT}`)
   })
 }).catch((error) => {
     console.error('Failed to connect to the database:', error)

@@ -16,7 +16,8 @@ COPY package*.json .
 # Install dependencies
 RUN npm install
 COPY . .
-#EXPOSE 5000 - I provided the port in my command when i spin the container not using expose method but noted here as an alternative
+
+EXPOSE 8000
 # verify
 RUN node -v
 RUN npm -v
