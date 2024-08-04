@@ -17,7 +17,6 @@ COPY package*.json .
 RUN npm install
 COPY . .
 
-EXPOSE 8000
 # verify
 RUN node -v
 RUN npm -v

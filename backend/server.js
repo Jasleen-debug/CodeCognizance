@@ -13,7 +13,6 @@ dotenv.config()
 
 const app = express()
 const PORT = process.env.PORT
-const HOST = process.env.HOST
 const ORIGIN = process.env.ORIGIN
 
 const corsOptions = {
@@ -43,8 +42,8 @@ app.get('/', (req,res) => {
 
 // Connect to the database and start the server
 DBConnection().then(() => {
-  app.listen(PORT,HOST, () => {
-    console.log(`Server is running on http://${HOST}:${PORT}`)
+  app.listen(PORT, () => {
+    console.log(`Server is running on port :${PORT}`)
   })
 }).catch((error) => {
     console.error('Failed to connect to the database:', error)
