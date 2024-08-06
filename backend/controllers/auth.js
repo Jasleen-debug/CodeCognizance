@@ -65,6 +65,8 @@ export const login = async (req, res) => {
     const cookieOptions = {
       expires: new Date(Date.now() + 1*24*60*60*1000),
       httpOnly: true, //Can only be changed by server not client
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.SAME_SITE
     }
     //https secure: process.env.NODE_ENV === 'production', //// Only true if in production
     //https sameSite: 'none' // none for cross-site
