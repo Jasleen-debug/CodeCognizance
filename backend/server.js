@@ -38,7 +38,13 @@ app.get('/', (req,res) => {
   res.send('Hello world')
 })
 
-// Also need to include paths to ssl certificates files, then store credentials and create an https server - I need a ssl certificate
+// Serve static files from the Vite app's dist directory
+app.use(express.static(path.join(__dirname, '../frontend/dist')))
+
+// Handle all other routes with the Vite app's entry point
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'))
+})
 
 // Connect to the database and start the server
 DBConnection().then(() => {

@@ -121,9 +121,9 @@ const RegistrationForm = () => {
         <div className="bg-white p-8 rounded shadow-md text-center">
           <h1 className="text-2xl font-bold mb-4">Success!</h1>
           <p className="text-lg">
-            <a href="/login" className="text-indigo-500 hover:text-indigo-700 underline">
+            <Link to="/login" className="text-indigo-500 hover:text-indigo-700 underline">
               Sign In
-            </a>
+            </Link>
           </p>
         </div>
       </section>)
@@ -281,7 +281,7 @@ const RegistrationForm = () => {
           <p className="text-sm text-gray-600">
               Already registered?<br />
                 <span className="inline-block mt-2">
-                    <Link to="/Login" className="text-indigo-600 hover:text-indigo-800 font-medium">Sign In</Link>
+                    <Link to="/login" className="text-indigo-600 hover:text-indigo-800 font-medium">Sign In</Link>
                 </span>
           </p>
       </div>
