@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react"
 import { useAuth } from "../hooks/useAuth";
 import { login } from "../services/authService"
-import { useNavigate, useLocation } from "react-router-dom"
+import { useNavigate, useLocation, Link } from "react-router-dom"
 
 const LoginForm = () => {
   const { setAuth } = useAuth()
@@ -121,12 +121,11 @@ const LoginForm = () => {
           Need an Account?
           <br />
           <span className='inline-block mt-2'>
-            <a
-              href='/Register'
-              className='text-indigo-600 hover:text-indigo-800 font-medium'
-            >
+            <Link
+              to='/register'
+              className='text-indigo-600 hover:text-indigo-800 font-medium'>
               Sign Up
-            </a>
+            </Link>
           </span>
         </p>
       </div>

@@ -8,7 +8,10 @@ import { runRouter } from './routes/run.js'
 import DBConnection from './database/db.js'
 import cookieParser from 'cookie-parser'
 import { judgeRouter } from './routes/judge.js'
-import {submissionRouter} from './routes/submissions.js'
+import { submissionRouter } from './routes/submissions.js'
+import path from 'path'
+import { fileURLToPath } from 'url'
+
 dotenv.config()
 
 const app = express()
@@ -18,10 +21,10 @@ const ORIGIN = process.env.ORIGIN
 const corsOptions = {
   origin: ORIGIN || 'http://localhost:5173',
   credentials: true,
-};
+}
 
 // Apply CORS middleware
-app.use(cors(corsOptions));
+app.use(cors(corsOptions))
 // Parse JSON bodies
 app.use(express.json())
 // Parse URL-encoded bodies
@@ -38,7 +41,15 @@ app.get('/', (req,res) => {
   res.send('Hello world')
 })
 
-// Also need to include paths to ssl certificates files, then store credentials and create an https server - I need a ssl certificate
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+// Serve static files from the Vite app's dist directory
+app.use(express.static(path.join(__dirname, '../frontend/dist')))
+
+// Handle all other routes with the Vite app's entry point
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'))
+})
 
 // Connect to the database and start the server
 DBConnection().then(() => {
